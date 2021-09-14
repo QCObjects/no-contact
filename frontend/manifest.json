@@ -9,7 +9,7 @@
   "description": "Awesome application that will help you achieve your dreams.",
   "orientation": "portrait-primary",
   "lang": "en-US",
-  "scope": "/qcobjects-no-contact/",
+  "scope": "/",
   "categories": ["utilities"],
   "start_url": "./?homescreen=1",
   "icons": [{
