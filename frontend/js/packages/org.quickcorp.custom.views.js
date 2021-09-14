@@ -1,6 +1,6 @@
-'use strict';
-Package('org.quickcorp.custom.views',[
-  Class('View1',View,{
+"use strict";
+Package("org.quickcorp.custom.views",[
+  Class("View1",View,{
     dependencies:[],
     component:null,
     _new_:function (o){
@@ -9,7 +9,7 @@ Package('org.quickcorp.custom.views',[
       //TODO: Implement
     }
   }),
-  Class('View2',View,{
+  Class("View2",View,{
     dependencies:[],
     component:null,
     _new_:function (o){

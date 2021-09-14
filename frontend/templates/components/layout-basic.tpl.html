@@ -10,7 +10,7 @@
 </style>
 
 <header>
-  <component name="header" shadowed="true" controllerClass="HeaderController" effectClass="MainTransitionEffect">
+  <component name="header" controllerClass="HeaderController" >
     <routing path="^#signup$" name="blank"></routing>
     <routing path="^#signin$" name="blank"></routing>
     <routing path="^#page1$" name="blank"></routing>
@@ -43,25 +43,25 @@
 </aside>
 <main role="main">
   <section>
-    <component name="contentblock" effectClass="MainTransitionEffect">
-        <routing path="#author" name="pages/author"></routing>
-        <routing path="#qcobjects" name="pages/qcobjects"></routing>
+    <component name="contentblock">
+        <routing path="^#author$" name="pages/author"></routing>
+        <routing path="^#qcobjects$" name="pages/qcobjects"></routing>
         <routing path="^#signup$" name="signup" ></routing>
         <routing path="^#loading$" name="loading"></routing>
         <routing path="^#signupsuccessful$" name="signupsuccessful"></routing>
-        <routing path="#signin" name="login2"></routing>
-        <routing path="#" name="contentblock"></routing>
-        <routing path="" name="contentblock"></routing>
+        <routing path="^#signin$" name="login2"></routing>
+        <routing path="^#$" name="contentblock"></routing>
+        <routing path="^$" name="contentblock"></routing>
       </component>
   </section>
 </main>
 <footer>
-  <component name="footer"  effectClass="MainTransitionEffect">
+  <component name="footer" >
       <routing path="^#signup$" name="signupbuttons"></routing>
       <routing path="^#loading$" name="loadingfooter"></routing>
       <routing path="^#signupsuccessful$" name="signupsuccessfulfooter"></routing>
-      <routing path="#author" name="blank"></routing>
-      <routing path="#qcobjects" name="blank"></routing>
+      <routing path="^#author$" name="blank"></routing>
+      <routing path="^#qcobjects$" name="blank"></routing>
       <routing path="^#$" name="footer"></routing>
       <routing path="^$" name="footer"></routing>
   </component>

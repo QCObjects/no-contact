@@ -92,6 +92,7 @@ footer {
 /*** THEME SPECIFIC COLORS AND SETTINGS ***/
 
 header {
+    top:0;
     padding-top: 80px !important;
     background: rgb(2,0,36);
     background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(8,6,78,1) 0%, rgba(18,18,154,1) 40%, rgba(14,68,180,1) 65%, rgba(15,62,85,1) 100%, rgba(0,212,255,1) 100%);

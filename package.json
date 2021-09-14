@@ -5,12 +5,23 @@
     "type": "git",
     "url": "https://github.com/QCObjects/no-contact.git"
   },
+  "scripts": {
+    "sync": "git add . && git commit -am ",
+    "test": "(npx eslint **/*.js **/js/*.js **/js/packages/*.js --fix) && (npx jasmine)",
+    "preversion": "npm cache verify && npm test",
+    "postversion": "git push && git push --tags",
+    "start": "node app.js"
+  },
   "description": "A QR Scanner example on a PWA - TWA powered by QCObjects",
   "main": "js/init.js",
   "license": "LGPL-3.0-or-later",
   "dependencies": {
-    "qcobjects": "latest",
+    "qcobjects": "^2.3.63",
     "qcobjects-cli": "^2.3.34",
     "qcobjects-sdk": "^2.3.23"
+  },
+  "devDependencies": {
+    "eslint-config-qcobjects": "^0.0.11",
+    "jasmine": "^3.9.0"
   }
 }
