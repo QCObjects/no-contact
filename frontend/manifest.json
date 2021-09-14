@@ -9,7 +9,6 @@
   "description": "Awesome application that will help you achieve your dreams.",
   "orientation": "portrait-primary",
   "lang": "en-US",
-  "dir": "auto",
   "scope": "/qcobjects-qr-scanner/",
   "categories": ["utilities"],
   "start_url": "./?homescreen=1",

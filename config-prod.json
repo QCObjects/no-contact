@@ -1,0 +1,146 @@
+{
+  "devmode":"$ENV(DEVMODE)",
+  "secretKey": "amdvW9saGlsWtpNia",
+  "cacheControl":"max-age=31536000",
+  "domain":"$ENV(DOMAIN)",
+  "certificate_provider":"$ENV(CERTIFICATE_PROVIDER)",
+  "private-key-pem": "./privkey.pem",
+  "private-cert-pem": "./fullchain.pem",
+  "serverPortHTTP": "$ENV(PORT_HTTP)",
+  "serverPortHTTPS": "$ENV(PORT_HTTPS)",
+  "documentRoot":"$ENV(DOCUMENT_ROOT)/frontend/",
+  "relativeImportPath":"backend/js/packages/",
+  "basePath":"$ENV(DOCUMENT_ROOT)",
+  "projectPath":"$ENV(DOCUMENT_ROOT)",
+  "dataPath":"$ENV(DATA_PATH)",
+  "gmail_user":"$ENV(GMAIL_USER)",
+  "gmail_password":"$ENV(GMAIL_PASSWORD)",
+  "gmail_from":"$ENV(GMAIL_FROM)",
+  "gmail_to":"$ENV(GMAIL_TO)",
+  "gmail_subject":"$ENV(GMAIL_SUBJECT)",
+  "newsletter_subject_user": "$ENV(NEWSLETTER_SUBJECT_USER)",
+  "newsletter_subject_backoffice": "$ENV(NEWSLETTER_SUBJECT_BACKOFFICE)",
+  "mailchimp_api": [
+    "$MAILCHIMP_API(MAILCHIMP_API_KEY,MAILCHIMP_API_SERVER,MAILCHIMP_API_LIST)",
+    "$MAILCHIMP_API(MAILCHIMP_QCOBJECTSJOBS_APIKEY,MAILCHIMP_QCOBJECTSJOBS_SERVER,MAILCHIMP_QCOBJECTSJOBS_LIST)"
+  ],
+  "useLegacyHTTP":false,
+  "CosmosDB":{
+    "endpoint": "$ENV(COSMOSDB_ENDPOINT)",
+    "key": "$ENV(COSMOSDB_API_KEY)",
+    "database": "$ENV(COSMOSDB_DATABASE)",
+    "userAgentSuffix": "SaverTicketAPIClient",
+    "partitionKey": ["/storeId"]
+  },
+  "webpayplus": {
+    "commerceCode": "$ENV(WEBPAY_COMMERCE_CODE)",
+    "apiKey": "$ENV(WEBPAY_API_KEY)",
+    "Environment": "$ENV(WEBPAY_ENVIRONMENT)",
+    "returnUrl": "https://$ENV(WEBPAY_RETURN_DOMAIN)/checkout/webpay/result"
+  },
+  "backend": {
+    "credentials":{
+      "apiKey":"$ENV(API_KEY)"
+    },
+    "routes": [
+      {
+        "name":"Register Email",
+        "description":"Register an email",
+        "path":"^/register$",
+        "microservice":"com.qcobjects.backend.register",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"Checkout Init",
+        "description":"Checkout Init",
+        "path":"^/{apiKey}/checkout/init$",
+        "microservice":"com.saverticket.checkout.init",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+
+      {
+        "name":"Checkout Get Order Form",
+        "description":"Checkout Get Order",
+        "path":"^/{apiKey}/{storeId}/checkout/form/order/{id1}-{id2}-{id3}-{id4}-{id5}$",
+        "microservice":"com.saverticket.checkout.form.order",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"Checkout Get Order",
+        "description":"Checkout Get Order",
+        "path":"^/{apiKey}/{storeId}/checkout/order/{id}$",
+        "microservice":"com.saverticket.checkout.order",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"Checkout Order List",
+        "description":"Checkout Order List",
+        "path":"^/{apiKey}/checkout/orders$",
+        "microservice":"com.saverticket.checkout.orderlist",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"WebPay Init Transaction",
+        "description":"WebPay Init Transaction",
+        "path":"^/checkout/webpay/init$",
+        "microservice":"com.saverticket.checkout.webpay.inittransaction",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"WebPay Result Transaction",
+        "description":"WebPay Result Transaction",
+        "path":"^/checkout/webpay/result$",
+        "microservice":"com.saverticket.checkout.webpay.result",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"QCObjects.js",
+        "description":"Redirection of QCObjects.js",
+        "path":"^/QCObjects.js$",
+        "microservice":"com.qcobjects.backend.microservice.static",
+        "redirect_to": "./node_modules/qcobjects/QCObjects.js",
+        "responseHeaders":{
+          "cache-control": "max-age=31536000"
+        },
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"apiCall.js",
+        "description":"Redirection of apiCall.js",
+        "path":"^/js/apiCall.js$",
+        "microservice":"com.qcobjects.backend.microservice.static",
+        "redirect_to": "frontend/js/apiCall.js",
+        "responseHeaders":{
+          "cache-control": "max-age=31536000"
+        },
+        "cors":{
+          "allow_origins":"*"
+        }
+      }
+
+    ]
+  }
+}
