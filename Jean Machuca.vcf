@@ -1,0 +1,19 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//QCObjects.//No Contact App//EN
+N:Machuca;Jean;;;
+FN:Jean Machuca
+ORG:QCObjects Chile SpA;
+TITLE:Founder
+EMAIL;type=INTERNET;type=pref:jean@qcobjects.com
+item1.X-ABLabel:_$!<Other>!$_
+TEL;type=CELL;type=VOICE;type=pref:+56948783634
+TEL;type=WORK;type=VOICE:+56948783634
+TEL:+56948783634
+TEL;type=IPHONE;type=CELL;type=VOICE:+56948783634
+TEL:+56948783634
+ADR;type=HOME;type=pref:;;;Santiago;RMT;9250;Chile
+item2.URL;type=pref:http://www.linkedin.com/in/jeanmachuca
+item2.X-ABLabel:_$!<HomePage>!$_
+BDAY:1982-08-08
+END:VCARD

@@ -125,31 +125,4 @@ select:after {
 }
 </style>
 <video muted playsinline id="qr-video"></video>
-<div class="transparent-card controls">
-<h1>Scan from WebCam:</h1>
-<div>
-    <b>Device has camera: </b>
-    <span id="cam-has-camera"></span>
-    <br>
-</div>
-<div>
-    <select id="inversion-mode-select">
-        <option value="original">Scan original (dark QR code on bright background)</option>
-        <option value="invert">Scan with inverted colors (bright QR code on dark background)</option>
-        <option value="both">Scan both</option>
-    </select>
-    <br>
-</div>
-<b>Detected QR code: </b>
-<span class="transparent-card2" id="cam-qr-result">None</span>
-<br>
-<b>Last detected at: </b>
-<span class="transparent-card2" id="cam-qr-result-timestamp"></span>
-<hr>
-
-<h1>Scan from File:</h1>
-<input type="file" id="file-selector">
-<b>Detected QR code: </b>
-<span class="transparent-card2" id="file-qr-result">None</span>
-<p class="footnote">This awesome app is a TWA powered by <a href="https://qcobjects.dev">QCObjects</a> </p>
 </div>

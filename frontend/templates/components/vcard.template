@@ -1,0 +1,18 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//QCObjects.//No Contact App//EN
+N:{{lastName}};{{firstName}};;;
+FN:{{firstName}} {{lastName}}
+ORG:{{company}};
+TITLE:{{jobTitle}}
+EMAIL;type=INTERNET;type=pref:{{email}}
+item1.X-ABLabel:_$!<Other>!$_
+TEL;type=CELL;type=VOICE;type=pref:{{phone}}
+TEL;type=WORK;type=VOICE:{{phone}}
+TEL:{{phone}}
+TEL;type=IPHONE;type=CELL;type=VOICE:{{phone}}
+TEL:{{phone}}
+ADR;type=HOME;type=pref:;;;{{city}};{{state}};{{postalCode}};{{country}}
+item2.URL;type=pref:{{website}}
+item2.X-ABLabel:_$!<HomePage>!$_
+END:VCARD

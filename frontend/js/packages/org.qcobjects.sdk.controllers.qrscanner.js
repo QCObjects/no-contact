@@ -32,7 +32,7 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
       }
     },
     __result_notified__: false,
-    setResult(label, result) {
+    setResult( result) {
       const controller = this;
       var isURL = function (u) {
         return (function (u) {
@@ -47,9 +47,6 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
         })(u);
       };
       if (!controller.__result_notified__) {
-        const camQrResultTimestamp = controller.component.shadowRoot.subelements("#cam-qr-result-timestamp").pop();
-
-        label.textContent = result;
 
         let clipboard = function (content) {
           var clipboard_content = New(Component, {
@@ -72,10 +69,6 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
           NotificationComponent.success("Copied to clipboard!");
         }, 1500);
 
-        camQrResultTimestamp.textContent = new Date().toString();
-        label.style.color = "teal";
-        clearTimeout(label.highlightTimeout);
-        label.highlightTimeout = setTimeout(() => label.style.color = "inherit", 100);
         if (isURL(result)) {
           location.href = result;
         }
@@ -131,35 +124,21 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
           QRSCANNER.WORKER_PATH = QRScannerPath + "qr-scanner-worker.min.js";
   
           const video = controller.component.shadowRoot.subelements("#qr-video").pop();
-          const camHasCamera = controller.component.shadowRoot.subelements("#cam-has-camera").pop();
-          const camQrResult = controller.component.shadowRoot.subelements("#cam-qr-result").pop();
-          const fileSelector = controller.component.shadowRoot.subelements("#file-selector").pop();
-          const fileQrResult = controller.component.shadowRoot.subelements("#file-qr-result").pop();
-  
   
           // ####### Web Cam Scanning #######
   
-          QRSCANNER.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
-  
-          controller.scanner = new QRSCANNER(video, result => controller.setResult(camQrResult, result));
-          controller.showControls();
-  
-          controller.component.shadowRoot.subelements("#inversion-mode-select").pop().addEventListener("change", event => {
-            controller.scanner.setInversionMode(event.target.value);
-          });
-  
-          // ####### File Scanning #######
-  
-          fileSelector.addEventListener("change", () => {
-            const file = fileSelector.files[0];
-            if (!file) {
-              return;
+          QRSCANNER.hasCamera().then((hasCamera) => {
+            if (hasCamera) {
+              NotificationComponent.success("You enabled permission to use the camera");
+              controller.scanner = new QRSCANNER(video, result => controller.setResult( result));
+              controller.scanner.setInversionMode("both");
+              controller.showControls();
+            } else {
+              NotificationComponent.danger("You need to allow permission to use the camera in order to use this app");
             }
-            QRSCANNER.scanImage(file)
-              .then(result => controller.setResult(fileQrResult, result))
-              .catch(e => controller.setResult(fileQrResult, e || "No QR code found."));
           });
   
+      
         };
   
         controller.loadDependencies(

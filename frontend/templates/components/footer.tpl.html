@@ -95,5 +95,15 @@ p{
   padding:0;
   margin:0;
 }
+
+div.footerButtons {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  grid-auto-flow: column;
+}
 </style>
-<button aria-label="Log in" role="button" tabindex="-1" onclick="global.get('qrControllerInstance').showControls()" class="text color-change-5x showControlsSwitch_button" ><p class="showControlsSwitch">Start Scanning</p></button>
+<div class="footerButtons">
+  <button aria-label="Start Scan" role="button" tabindex="-1" onclick="global.get('qrControllerInstance').showControls()" class="text color-change-5x showControlsSwitch_button" ><p class="showControlsSwitch">Start Scanning</p></button>
+  <button aria-label="Display QR" role="button" tabindex="-1" onclick="global.get('qrControllerInstance').displayContactQR()" class="text color-change-5x showControlsSwitch_button" ><p >Display QR</p></button>
+</div>
