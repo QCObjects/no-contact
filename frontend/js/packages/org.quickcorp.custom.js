@@ -1,4 +1,5 @@
 "use script";
+Import ("org.qcobjects.sdk.components.gridtable");
 Import ("com.qcobjects.components.vcard");
 Import ("org.qcobjects.sdk.controllers.qrgen");
 Import ("org.qcobjects.services");
