@@ -1,13 +1,61 @@
 "use strict";
 Package("org.qcobjects.sdk.components.gridtable", [
-  Class("GridTableTemplateHandler", ClassFactory("DefaultTemplateHandler"), {
+  Class("GridTableTemplateHandler", Object, {
+    template: "",
     assign(data) {
       var component = this.component;
       var gridtable_columns = function (columnsName) {
-        return "these are the columns";
+        var columns_text = "";
+        var data = this.component.data;
+        var columns = data[columnsName];
+        if (typeof data[columnsName] !== "undefined" && Object.hasOwnProperty.call(data[columnsName], "map")) {
+          columns_text = columns.map(column => {
+            if (typeof column.label === "undefined") {
+              column.label = function (cname) {
+                return cname;
+              };
+            }
+            var column_template = `
+            <th style="width:${column.width};">${column.label(column.name)}</th>
+                    `;
+            return column_template;
+          }).join("");
+        }
+        return columns_text;
       };
-      var gridtable_rows = function (rows) {
-        return "these are the rows";
+      var gridtable_rows = function (rowsName, columnsName) {
+        var rows_text = "";
+        var data = this.component.data;
+
+        var rows = data[rowsName];
+        var columns = data[columnsName];
+        if (
+          typeof data[rowsName] !== "undefined" &&
+          Object.hasOwnProperty.call(data[rowsName], "map") &&
+          typeof data[columnsName] !== "undefined" &&
+          Object.hasOwnProperty.call(data[columnsName], "map")
+        ) {
+          rows_text = rows.map(row => {
+            var rowmap = columns.map(column => {
+              if (typeof column.format === "undefined") {
+                column.format = function (s) {
+                  return s.toString();
+                };
+              }
+              var column_template = `
+  <td>${column.format(row[column.name])}</td>`;
+              return column_template;
+            }).join("\n");
+            var row_template = `
+          <tr>
+            ${rowmap}
+          </tr>`;
+            return row_template;
+          }).join("\n");
+
+        }
+
+        return rows_text;
       };
       component.processorHandler.setProcessor(gridtable_columns);
       component.processorHandler.setProcessor(gridtable_rows);
@@ -18,6 +66,7 @@ Package("org.qcobjects.sdk.components.gridtable", [
     name: "gridtable",
     tplsource: "inline",
     shadowed: true,
+    templateHandler: "GridTableTemplateHandler",
     template: `
     <style>
     :root, :host {
@@ -101,7 +150,7 @@ Package("org.qcobjects.sdk.components.gridtable", [
       <tr class="header">
         $gridtable_columns(columns)
       </tr>
-        $gridtable_rows(rows)
+        $gridtable_rows(rows,columns)
     </table>
     `,
     _new_(o) {
