@@ -1,74 +1,81 @@
 <style>
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-:root {
-  --select-border: #777;
-  --select-focus: blue;
-  --select-arrow: var(--select-border);
-}
-select {
-  /* A reset of styles, including removing the default dropdown arrow*/
-  appearance: none;
-  /* Additional resets for further consistency */
-  background-color: transparent;
-  border: none;
-  padding: 0 1em 0 0;
-  margin: 0;
-  width: 100%;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-   outline: none;
-}
-select::-ms-expand {
-  display: none;
-}
-select {
-  width: 100%;
-  min-width: 15ch;
-  max-width: 30ch;
-  border: 1px solid var(--select-border);
-  border-radius: 0.25em;
-  padding: 0.25em 0.5em;
-  font-size: 1.25rem;
-  cursor: pointer;
-  line-height: 1.1;
-  background-color: #fff;
-  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
-}
-select::after {
-  content: "";
-  width: 0.8em;
-  height: 0.5em;
-  background-color: var(--select-arrow);
-  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-  display: grid;
-}
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-select {
-  /* ...existing styles */
-  grid-template-areas: "select";
-}
+  :root {
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+  }
 
-select,
-select:after {
-  grid-area: select;
-}
+  select {
+    /* A reset of styles, including removing the default dropdown arrow*/
+    appearance: none;
+    /* Additional resets for further consistency */
+    background-color: transparent;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    outline: none;
+  }
 
-select {
-  /* ...existing styles */
-  align-items: center;
-}
+  select::-ms-expand {
+    display: none;
+  }
 
-select:after {
-  /* ...existing styles */
-  justify-self: end;
-}
-:root, :host{
+  select {
+    width: 100%;
+    min-width: 15ch;
+    max-width: 30ch;
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  }
+
+  select::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    display: grid;
+  }
+
+  select {
+    /* ...existing styles */
+    grid-template-areas: "select";
+  }
+
+  select,
+  select:after {
+    grid-area: select;
+  }
+
+  select {
+    /* ...existing styles */
+    align-items: center;
+  }
+
+  select:after {
+    /* ...existing styles */
+    justify-self: end;
+  }
+
+  :root,
+  :host {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -79,21 +86,27 @@ select:after {
     left: 0;
     color: yellow;
     background: #111;
-}
-    canvas {
-        display: none;
-    }
-    hr {
-        margin-top: 32px;
-    }
-    input[type="file"] {
-        display: block;
-        margin-bottom: 16px;
-    }
-    div {
-        margin-bottom: 16px;
-    }
-    video {
+    overflow: auto;
+  }
+
+  canvas {
+    display: none;
+  }
+
+  hr {
+    margin-top: 32px;
+  }
+
+  input[type="file"] {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  div {
+    margin-bottom: 16px;
+  }
+
+  video {
     position: fixed;
     transform: scaleX(-1);
     /* max-width: 375px; */
@@ -105,15 +118,18 @@ select:after {
     height: 100%;
     object-fit: cover;
     z-index: -1;
-}
-.transparent-card {
+  }
+
+  .transparent-card {
     margin: 0 auto;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
     max-width: 80%;
     border-radius: 27px;
     padding: 3%;
-}
-.transparent-card2 {
+    margin-bottom: 800px;
+  }
+
+  .transparent-card2 {
     margin: 0 auto;
     /* border: 1px solid black; */
     min-width: 50%;
@@ -121,8 +137,88 @@ select:after {
     display: block;
     padding: 1%;
     border-radius: 27px;
-    background: rgba(0,0,0,0.2);
-}
+    background: rgba(0, 0, 0, 0.2);
+  }
 </style>
-<video muted playsinline id="qr-video"></video>
+<style>
+  canvas {
+    display: none;
+  }
+
+  video {
+    position: fixed;
+    transform: scaleX(-1);
+    /* max-width: 375px; */
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+</style>
+<video muted playsinline class="qrvideo"></video>
+
+<div class="transparent-card controls">
+  <h1>Add a Contact:</h1>
+
+  <style>
+    @import url("css/components/addcontact.css");
+  </style>
+  <div class="row">
+    <div class="col-100">
+      <div class="container">
+        <form action="javascript:;" id="addcontact_form">
+
+          <div class="row">
+            <div class="col-50">
+              <h3>Datos de Facturaci&oacute;n</h3>
+              <div class="row">
+                <div class="col-25">
+                  <label for="frut"><i class="fa fa-user"></i> RUT</label>
+                  $optionalInput(dni)
+                </div>
+                <div class="col-75">
+                  <label for="femail"><i class="fa fa-envelope"></i> Email</label>
+                  $optionalInput(email)
+                </div>
+              </div>
+              <label for="ffullName"><i class="fa fa-user"></i> Nombre Completo</label>
+              $optionalInput(fullName)
+              <label for="faddress"><i class="fa fa-address-card-o"></i> Direcci&oacute;n</label>
+              $optionalInput(address)
+              <div class="row">
+                <div class="col-50">
+                  <label for="fcouncil"><i class="fa fa-institution"></i> Comuna</label>
+                  $optionalInput(council)
+                </div>
+                <div class="col-50">
+                  <label for="fcity"><i class="fa fa-institution"></i> Ciudad</label>
+                  $optionalInput(city)
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-50">
+                  <label for="fstate">State</label>
+                  $optionalInput(state)
+                </div>
+                <div class="col-50">
+                  <label for="fzip">Zip</label>
+                  $optionalInput(zip)
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+  </div>
+
+  <p class="footnote">This awesome app is a TWA powered by <a href="https://qcobjects.dev">QCObjects</a> </p>
+</div>
 </div>

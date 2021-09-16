@@ -15,12 +15,10 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
         controller.dependencies.push(New(SourceJS, {
           url: QRScannerPath + "qr-scanner-worker.min.js",
           external: CONFIG.get("qr-scanner-external", false),
-          sourceType:"module",
           done: function () {
             controller.dependencies.push(New(SourceJS, {
-              url: QRScannerPath + "qr-scanner.min.js",
+              url: QRScannerPath + "qr-scanner.js",
               external: CONFIG.get("qr-scanner-external", false),
-              sourceType:"module",
               done: function () {
                 callback.call(controller);
               }
@@ -86,23 +84,37 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
             elementList,
             effect
           }) {
-            controller.__result_notified__ = false;
-            componentRoot.style.background = "none";
-            componentRoot.style.minHeight = "";
-            elementList.map(e => effect.apply(e, 1, 0));
-            controller.scanner.start();
-            Tag(".showControlsSwitch").map(e => e.textContent = "Stop Scanning");
+            if (typeof controller.scanner !== "undefined") {
+              controller.__result_notified__ = false;
+              componentRoot.style.background = "none";
+              componentRoot.style.minHeight = "";
+              elementList.map(e => effect.apply(e, 1, 0));
+              controller.scanner.start();
+              Tag(".showControlsSwitch").map(e => e.textContent = "Stop Scanning");
+            } else {
+              NotificationComponent.warning("Scanner is not available");
+            }
+
           },
           positive({
             elementList,
             effect
           }) {
-            controller.__result_notified__ = true;
-            componentRoot.style.background = "#111";
-            componentRoot.style.minHeight = "1000px";
-            elementList.map(e => effect.apply(e, 0, 1));
-            controller.scanner.stop();
-            Tag(".showControlsSwitch").map(e => e.textContent = "Start Scanning");
+            if (typeof controller.scanner !== "undefined"){
+              controller.__result_notified__ = true;
+              componentRoot.style.background = "#111";
+              componentRoot.style.minHeight = "1000px";
+              componentRoot.style.position = "fixed";
+              componentRoot.style.top = "0";
+              componentRoot.style.left = "0";
+              componentRoot.style.bottom = "0";
+              componentRoot.style.right = "0";
+              elementList.map(e => effect.apply(e, 0, 1));
+              controller.scanner.stop();
+              Tag(".showControlsSwitch").map(e => e.textContent = "Start Scanning");
+            } else {
+              NotificationComponent.warning("Scanner is not available");
+            }
           },
           args: {
             elementList: elementList,
@@ -123,16 +135,25 @@ Package("org.qcobjects.sdk.controllers.qrscanner", [
           var QRScannerPath = CONFIG.get("qr-scanner-path", "./js/packages/thirdparty/libs/qr-scanner/");
           QRSCANNER.WORKER_PATH = QRScannerPath + "qr-scanner-worker.min.js";
   
-          const video = controller.component.shadowRoot.subelements("#qr-video").pop();
   
           // ####### Web Cam Scanning #######
   
           QRSCANNER.hasCamera().then((hasCamera) => {
             if (hasCamera) {
-              NotificationComponent.success("You enabled permission to use the camera");
-              controller.scanner = new QRSCANNER(video, result => controller.setResult( result));
-              controller.scanner.setInversionMode("both");
-              controller.showControls();
+              try {
+                var video = controller.component.shadowRoot.subelements("video.qrvideo").pop();
+                if (typeof video === "undefined"){
+                  NotificationComponent.danger("There is a problem to load the video control");
+                } else {
+                  NotificationComponent.success("You enabled permission to use the camera");
+                  controller.scanner = new QRSCANNER(video, result => controller.setResult( result));
+                  controller.scanner.setInversionMode("both");
+                  controller.showControls();
+                }
+              }catch (e){
+                NotificationComponent.danger(e.toString());
+                console.error(e);
+              }
             } else {
               NotificationComponent.danger("You need to allow permission to use the camera in order to use this app");
             }
