@@ -18,7 +18,7 @@
   "dependencies": {
     "qcobjects": "^2.3.63",
     "qcobjects-cli": "^2.3.34",
-    "qcobjects-sdk": "^2.3.23"
+    "qcobjects-sdk": "^2.3.24"
   },
   "devDependencies": {
     "eslint-config-qcobjects": "^0.0.11",
