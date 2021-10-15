@@ -5,21 +5,23 @@ Package("org.qcobjects.sdk.components.gridtable", [
     assign(data) {
       var component = this.component;
       var gridtable_columns = function (columnsName) {
-        var columns_text = "";
         var data = this.component.data;
         var columns = data[columnsName];
-        if (typeof data[columnsName] !== "undefined" && Object.hasOwnProperty.call(data[columnsName], "map")) {
+        var columns_text;
+        if (typeof columns !== "undefined" ) {
           columns_text = columns.map(column => {
             if (typeof column.label === "undefined") {
               column.label = function (cname) {
                 return cname;
               };
             }
-            var column_template = `
-            <th style="width:${column.width};">${column.label(column.name)}</th>
-                    `;
+            if (typeof column.width === "undefined") {
+              column.width = "auto";
+            }
+            var columnLabel = column.label(column.name);
+            var column_template = `<th style="width:${column.width.toString()};">${columnLabel}</th>`;
             return column_template;
-          }).join("");
+          }).join("\n");
         }
         return columns_text;
       };
@@ -30,10 +32,8 @@ Package("org.qcobjects.sdk.components.gridtable", [
         var rows = data[rowsName];
         var columns = data[columnsName];
         if (
-          typeof data[rowsName] !== "undefined" &&
-          Object.hasOwnProperty.call(data[rowsName], "map") &&
-          typeof data[columnsName] !== "undefined" &&
-          Object.hasOwnProperty.call(data[columnsName], "map")
+          typeof rows !== "undefined" &&
+          typeof columns !== "undefined" 
         ) {
           rows_text = rows.map(row => {
             var rowmap = columns.map(column => {
@@ -42,17 +42,13 @@ Package("org.qcobjects.sdk.components.gridtable", [
                   return s.toString();
                 };
               }
-              var column_template = `
-  <td>${column.format(row[column.name])}</td>`;
+              var cellValue = column.format(row[column.name]);
+              var column_template = `<td>${cellValue}</td>`;
               return column_template;
             }).join("\n");
-            var row_template = `
-          <tr>
-            ${rowmap}
-          </tr>`;
+            var row_template = `<tr>${rowmap}</tr>`;
             return row_template;
           }).join("\n");
-
         }
 
         return rows_text;
@@ -71,13 +67,14 @@ Package("org.qcobjects.sdk.components.gridtable", [
     <style>
     :root, :host {
       box-sizing: border-box;
+      width: 100%;
     }
     
     #myInput {
-      background-image: url('{{searchIcon}}');
+      background-image: url('{{search_icon}}');
+      border-radius: 1em;
       background-position: 10px 10px;
       background-repeat: no-repeat;
-      width: 100%;
       font-size: 16px;
       padding: 12px 20px 12px 40px;
       border: 1px solid #ddd;
@@ -85,34 +82,39 @@ Package("org.qcobjects.sdk.components.gridtable", [
     }
     
     #myTable {
-      border-radius: 27px;
+      overflow: hidden;
+      border-radius: 1em;
       border-collapse: collapse;
       width: 100%;
       border: 1px solid #ddd;
       font-size: 18px;
     }
-    
+
     #myTable th, #myTable td {
+      width: 100%;
       text-align: left;
       padding: 12px;
+      padding: 1em;
+      background: #f1f1f1;
+      border-bottom: 2px solid white; 
+
     }
-    
-    #myTable tr {
-      border-bottom: 1px solid #ddd;
-    }
-    
+    #myTable th:hover, #myTable td:hover,
     #myTable tr.header, #myTable tr:hover {
-      background-color: #f1f1f1;
+      background-color: #ddd;
+    }
+
+    #myTable tr {
+      border-bottom: 1px solid #f1f1f1;
     }
     
-    
-    tr {
+    table tbody tr {
          display: none;
          animation: fade_out;
     }
     
-    tr.item {
-         display: block;
+    table tbody tr.item {
+         display: table-row;
          animation: fade_in_show 0.8s
     }
     
@@ -143,17 +145,29 @@ Package("org.qcobjects.sdk.components.gridtable", [
     
     <h2>{{title}}</h2>
     
-    <label for="myInput">{{searchTitle}}:</label>
+    <label for="myInput">{{search_title}}:</label>
     <input type="text" id="myInput" onkeyup="global.get('{{controllerInstance}}').applyFilter()" aria-label="Search" placeholder="{{placeholder}}... " title="{{placeholder}}">
     
     <table id="myTable">
+      <thead>
       <tr class="header">
         $gridtable_columns(columns)
       </tr>
+      </thead>
+      <tbody>      
         $gridtable_rows(rows,columns)
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Sum</td>
+          <td>$180</td>
+        </tr>
+      </tfoot>
     </table>
     `,
     _new_(o) {
+      o.data.controllerInstance = `component_${this.__instanceID.toString()}_controller`;
+      this.body.setAttribute("controllerClass", "GridTableController");
       return _super_("Component", "_new_").call(this, o);
     }
   })
