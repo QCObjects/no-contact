@@ -1,0 +1,98 @@
+{
+  "devmode":"debug",
+  "secretKey": "aGJoZmRpa21sbGlvY2lhaw",
+  "cacheControl":"max-age=31536000",
+  "relativeImportPath":"backend/js/packages/",
+  "documentRoot":"./frontend/",
+  "serverPortHTTP": "8080",
+  "serverPortHTTPS": "8443",
+  "useLegacyHTTP": true,
+  "gmail_user":"$ENV(GMAIL_USER)",
+  "gmail_password":"$ENV(GMAIL_PASSWORD)",
+  "gmail_from":"$ENV(GMAIL_FROM)",
+  "gmail_to":"$ENV(GMAIL_TO)",
+  "newsletter_subject_user": "$ENV(NEWSLETTER_SUBJECT_USER)",
+  "newsletter_subject_backoffice": "$ENV(NEWSLETTER_SUBJECT_BACKOFFICE)",
+  "gmail_subject":"$ENV(GMAIL_SUBJECT)",
+  "mailchimp_api": [
+    "$MAILCHIMP_API(MAILCHIMP_API_KEY,MAILCHIMP_API_SERVER,MAILCHIMP_API_LIST)",
+    "$MAILCHIMP_API(MAILCHIMP_QCOBJECTSJOBS_APIKEY,MAILCHIMP_QCOBJECTSJOBS_SERVER,MAILCHIMP_QCOBJECTSJOBS_LIST)"
+  ],
+  "CosmosDB":{
+    "endpoint": "$ENV(COSMOSDB_ENDPOINT)",
+    "key": "$ENV(COSMOSDB_API_KEY)",
+    "database": "$ENV(COSMOSDB_DATABASE)",
+    "userAgentSuffix": "SaverTicketAPIClient",
+    "partitionKey": ["/storeId"]
+  },
+  "webpayplus": {
+    "commerceCode": "$ENV(WEBPAY_COMMERCE_CODE)",
+    "apiKey": "$ENV(WEBPAY_API_KEY)",
+    "Environment": "$ENV(WEBPAY_ENVIRONMENT)",
+    "returnUrl": "https://$ENV(WEBPAY_RETURN_DOMAIN)/checkout/webpay/result"
+  },
+  "backend": {
+    "credentials":{
+      "apiKey":"$ENV(API_KEY)"
+    },
+    "routes": [
+      {
+        "name":"Contact List",
+        "description":"Contact List",
+        "path":"^/contactlist$",
+        "microservice":"qcobjects-handler-mockup",
+        "responseHeaders":{},
+        "response": [
+          {
+            "name": "John doe",
+            "email": "a@b.com"
+          },
+          {
+            "name": "Jane doe",
+            "email": "a@c.com"
+          }
+        ],
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"User Contact",
+        "description":"User Contact",
+        "path":"^/{userKey}/contact/vcard$",
+        "microservice":"qcobjects-vcard-microservice",
+        "responseHeaders":{},
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"QCObjects.js",
+        "description":"Redirection of QCObjects.js",
+        "path":"^/QCObjects.js$",
+        "microservice":"com.qcobjects.backend.microservice.static",
+        "redirect_to": "./node_modules/qcobjects/QCObjects.js",
+        "responseHeaders":{
+          "cache-control": "max-age=31536000"
+        },
+        "cors":{
+          "allow_origins":"*"
+        }
+      },
+      {
+        "name":"apiCall.js",
+        "description":"Redirection of apiCall.js",
+        "path":"^/js/apiCall.js$",
+        "microservice":"com.qcobjects.backend.microservice.static",
+        "redirect_to": "frontend/js/apiCall.js",
+        "responseHeaders":{
+          "cache-control": "max-age=31536000"
+        },
+        "cors":{
+          "allow_origins":"*"
+        }
+      }
+
+    ]
+  }
+}
