@@ -10,7 +10,8 @@
     "test": "(npx eslint **/*.js **/js/*.js **/js/packages/*.js --fix) && (npx jasmine)",
     "preversion": "npm cache verify && npm test",
     "postversion": "git push && git push --tags",
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": "exit 0"    
   },
   "description": "A QR Scanner example on a PWA - TWA powered by QCObjects",
   "main": "js/init.js",
