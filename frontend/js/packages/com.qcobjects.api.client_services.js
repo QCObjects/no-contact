@@ -1,6 +1,8 @@
 "use strict";
 Package("com.qcobjects.api.client_services",[
   Class("ContactListService", JSONService, {
+    kind: "local",
+    template: "[{\"name\":\"John doe\",\"email\":\"a@b.com\"},{\"name\":\"Jane doe\",\"email\":\"a@c.com\"}]",
     name: "qcobjects_contactlist",
     external: false,
     cached: false,
@@ -10,12 +12,29 @@ Package("com.qcobjects.api.client_services",[
       "content-type": "application/json"
     },
     basePath: "",
-    url: "/contactlist",
+    url: null,
     withCredentials: false,
     _new_ (o) {
       // service instantiated
+      logger.debugEnabled = true;
       this.data = o.data;
-      NotificationComponent.info("loading service...");
+//      NotificationComponent.info("loading service...");
+    },
+    local ({service}) {
+      (async function () {
+        try {
+          NotificationComponent.info("loading contacts...");
+          const contacts = await navigator.contacts.select(["name", "email"], {multiple: true});
+          service.template = _DataStringify(contacts);
+  
+          service.done.call(service, {service});
+  
+        } catch (e){
+          NotificationComponent.danger(e.toString());
+
+        }
+      })();
+
     },
     done ({service}) {
       logger.debugEnabled = true;
