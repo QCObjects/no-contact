@@ -6,7 +6,7 @@
   "documentRoot":"./frontend/",
   "serverPortHTTP": "8080",
   "serverPortHTTPS": "8443",
-  "useLegacyHTTP": true,
+  "useLegacyHTTP": false,
   "gmail_user":"$ENV(GMAIL_USER)",
   "gmail_password":"$ENV(GMAIL_PASSWORD)",
   "gmail_from":"$ENV(GMAIL_FROM)",

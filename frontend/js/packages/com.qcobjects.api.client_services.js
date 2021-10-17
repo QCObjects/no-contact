@@ -24,10 +24,13 @@ Package("com.qcobjects.api.client_services",[
       (async function () {
         try {
           NotificationComponent.info("loading contacts...");
+          /*
           const contacts = await navigator.contacts.select(["name", "email"], {multiple: true});
           service.template = _DataStringify(contacts);
-  
+          */
+
           service.done.call(service, {service});
+
   
         } catch (e){
           NotificationComponent.danger(e.toString());

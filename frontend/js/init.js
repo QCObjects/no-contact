@@ -75,4 +75,4 @@ Processor.setProcessor(optionalInput);
 
 Import("org.quickcorp.custom"); // this will load js/packages/org.quickcorp.custom.js file
 
-RegisterWidgets("splash-screen", "layout-basic");
+RegisterWidgets("splash-screen", "layout-basic", "select-contacts");

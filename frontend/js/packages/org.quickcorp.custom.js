@@ -1,4 +1,5 @@
 "use script";
+Import ("com.qcobjects.phonecontacts.controller");
 Import ("com.qcobjects.api.client_services");
 Import ("org.qcobjects.sdk.controllers.gridtable");
 Import ("org.qcobjects.sdk.components.gridtable");
