@@ -121,11 +121,13 @@ Package("org.qcobjects.sdk.components.gridtable", [
     table tbody tr {
          display: none;
          animation: scale_out;
+         transform-origin: left;         
     }
     
     table tbody tr.item {
          display: table-row;
-         animation: scale_in_show 0.8s
+         animation: scale_in_show 0.8s;
+         transform-origin: left;         
     }
     
     @keyframes scale_out {
