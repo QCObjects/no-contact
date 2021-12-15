@@ -120,14 +120,14 @@ Package("org.qcobjects.sdk.components.gridtable", [
     
     table tbody tr {
          display: none;
-         animation: scale_out;
+         animation: skew_out 0.5s;
          transform-origin: left;         
     }
     
     table tbody tr.item {
          display: table-row;
-         animation: scale_in_show 0.8s;
-         transform-origin: left;         
+         animation: skew_in_show 0.8s;
+         transform-origin: left;
     }
     
     @keyframes scale_out {
@@ -152,6 +152,28 @@ Package("org.qcobjects.sdk.components.gridtable", [
               opacity: 1;
               transform: scale(1);
          }
+    }
+
+    @keyframes skew_in_show {
+          0% {
+                opacity: 0;
+                transform: skew(90deg, 0deg);
+          }
+          100% {
+                opacity: 1;
+                transform: skew(0deg);
+          }
+    }
+
+    @keyframes skew_out {
+          0% {
+                opacity: 1;
+                transform: skew(0deg);
+          }
+          100% {
+                opacity: 0;
+                transform: skew(90deg, 0deg);
+          }
     }
     </style>
     
