@@ -15,7 +15,7 @@ Package("org.qcobjects.sdk.controllers.gridtable", [
             || td.innerText.lastIndexOf(filterText) === -1;
           }).length>0;
         }).map (tr => {
-          tr.classList.remove("item");          
+          tr.classList.remove("item");
           return tr;
         });
         table.subelements("tr").filter (tr => {

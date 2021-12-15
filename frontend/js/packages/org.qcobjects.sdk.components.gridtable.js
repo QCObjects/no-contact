@@ -1,6 +1,6 @@
 "use strict";
 Package("org.qcobjects.sdk.components.gridtable", [
-  Class("GridTableTemplateHandler", Object, {
+  Class("GridTableTemplateHandler", ClassFactory("DefaultTemplateHandler"), {
     template: "",
     assign(data) {
       var component = this.component;
@@ -53,9 +53,19 @@ Package("org.qcobjects.sdk.components.gridtable", [
 
         return rows_text;
       };
-      component.processorHandler.setProcessor(gridtable_columns);
-      component.processorHandler.setProcessor(gridtable_rows);
-      return _super_("DefaultTemplateHandler", "assign").call(this, data);
+      try {
+        component.processorHandler.setProcessor(gridtable_columns);
+        component.processorHandler.setProcessor(gridtable_rows);
+      } catch (e){
+        logger.warn(e);
+      }
+      var _;
+      try {
+        _ = _super_("DefaultTemplateHandler", "assign").call(this, data);
+      } catch (e){
+        logger.warn(e);
+      }
+      return _;
     }
   }),
   Class("GridTableComponent", Component, {
