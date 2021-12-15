@@ -120,15 +120,15 @@ Package("org.qcobjects.sdk.components.gridtable", [
     
     table tbody tr {
          display: none;
-         animation: fade_out;
+         animation: scale_out;
     }
     
     table tbody tr.item {
          display: table-row;
-         animation: fade_in_show 0.8s
+         animation: scale_in_show 0.8s
     }
     
-    @keyframes fade_out {
+    @keyframes scale_out {
          0% {
               opacity: 1;
               transform: scale(1);
@@ -140,7 +140,7 @@ Package("org.qcobjects.sdk.components.gridtable", [
          }
     }
     
-    @keyframes fade_in_show {
+    @keyframes scale_in_show {
          0% {
               opacity: 0;
               transform: scale(0);
