@@ -1,6 +1,6 @@
 "use strict";
 Package("org.qcobjects.sdk.components.gridtable", [
-  Class("GridTableTemplateHandler", Object, {
+  Class("GridTableTemplateHandler", ClassFactory("DefaultTemplateHandler"), {
     template: "",
     assign(data) {
       var component = this.component;
@@ -52,9 +52,19 @@ Package("org.qcobjects.sdk.components.gridtable", [
 
         return rows_text;
       };
-      component.processorHandler.setProcessor(gridtable_columns);
-      component.processorHandler.setProcessor(gridtable_rows);
-      return _super_("DefaultTemplateHandler", "assign").call(this, data);
+      try {
+        component.processorHandler.setProcessor(gridtable_columns);
+        component.processorHandler.setProcessor(gridtable_rows);
+      } catch (e){
+        logger.warn(e);
+      }
+      var _;
+      try {
+        _ = _super_("DefaultTemplateHandler", "assign").call(this, data);
+      } catch (e){
+        logger.warn(e);
+      }
+      return _;
     }
   }),
   Class("GridTableComponent", Component, {
@@ -66,13 +76,13 @@ Package("org.qcobjects.sdk.components.gridtable", [
     <style>
     :root, :host {
       box-sizing: border-box;
+      width: 100%;
     }
     
     #myInput {
       background-image: url('{{search_icon}}');
       background-position: 10px 10px;
       background-repeat: no-repeat;
-      width: 100%;
       font-size: 16px;
       padding: 12px 20px 12px 40px;
       border: 1px solid #ddd;
@@ -80,38 +90,45 @@ Package("org.qcobjects.sdk.components.gridtable", [
     }
     
     #myTable {
-      border-radius: 27px;
+      overflow: hidden;
+      border-radius: 1em;
       border-collapse: collapse;
       width: 100%;
       border: 1px solid #ddd;
       font-size: 18px;
     }
-    
+
     #myTable th, #myTable td {
+      width: 100%;
       text-align: left;
       padding: 12px;
+      padding: 1em;
+      background: #f1f1f1;
+      border-bottom: 2px solid white; 
+
     }
-    
-    #myTable tr {
-      border-bottom: 1px solid #ddd;
-    }
-    
+    #myTable th:hover, #myTable td:hover,
     #myTable tr.header, #myTable tr:hover {
-      background-color: #f1f1f1;
+      background-color: #ddd;
+    }
+
+    #myTable tr {
+      border-bottom: 1px solid #f1f1f1;
     }
     
-    
-    tr {
+    table tbody tr {
          display: none;
-         animation: fade_out;
+         animation: skew_out 0.5s;
+         transform-origin: left;         
     }
     
-    tr.item {
-         display: block;
-         animation: fade_in_show 0.8s
+    table tbody tr.item {
+         display: table-row;
+         animation: skew_in_show 0.8s;
+         transform-origin: left;
     }
     
-    @keyframes fade_out {
+    @keyframes scale_out {
          0% {
               opacity: 1;
               transform: scale(1);
@@ -123,7 +140,7 @@ Package("org.qcobjects.sdk.components.gridtable", [
          }
     }
     
-    @keyframes fade_in_show {
+    @keyframes scale_in_show {
          0% {
               opacity: 0;
               transform: scale(0);
@@ -133,6 +150,28 @@ Package("org.qcobjects.sdk.components.gridtable", [
               opacity: 1;
               transform: scale(1);
          }
+    }
+
+    @keyframes skew_in_show {
+          0% {
+                opacity: 0;
+                transform: skew(90deg, 0deg);
+          }
+          100% {
+                opacity: 1;
+                transform: skew(0deg);
+          }
+    }
+
+    @keyframes skew_out {
+          0% {
+                opacity: 1;
+                transform: skew(0deg);
+          }
+          100% {
+                opacity: 0;
+                transform: skew(90deg, 0deg);
+          }
     }
     </style>
     
@@ -142,10 +181,20 @@ Package("org.qcobjects.sdk.components.gridtable", [
     <input type="text" id="myInput" onkeyup="global.get('{{controllerInstance}}').applyFilter()" aria-label="Search" placeholder="{{placeholder}}... " title="{{placeholder}}">
     
     <table id="myTable">
+      <thead>
       <tr class="header">
         $gridtable_columns(columns)
       </tr>
+      </thead>
+      <tbody>      
         $gridtable_rows(rows,columns)
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Sum</td>
+          <td>$180</td>
+        </tr>
+      </tfoot>
     </table>
     `,
     _new_(o) {

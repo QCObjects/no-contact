@@ -1,6 +1,8 @@
 "use strict";
 Package("com.qcobjects.api.client_services",[
   Class("ContactListService", JSONService, {
+    kind: "local",
+    template: "[{\"name\":\"John doe\",\"email\":\"a@b.com\"},{\"name\":\"Jane doe\",\"email\":\"a@c.com\"}]",
     name: "qcobjects_contactlist",
     external: false,
     cached: false,
