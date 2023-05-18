@@ -9,11 +9,19 @@
         z-index: -1;
     }
     div.container {
-        margin-top:100px;
+        margin-top:100px !important;
+        position: absolute;
     }
 </style>
 <div class="background"></div>
 <div class="container">
     <h1>this is the contact list</h1>
-    <component name="gridtable" componentClass="GridTableComponent">
+    <component name="gridtable" 
+        serviceClass="ContactListService" 
+        response-to="data"
+        data-title="Contact List" 
+        data-search_title="Find your contact" 
+        data-placeholder="Contact name or any other data" 
+        data-search_icon="img/icons/searchicon.png"
+        componentClass="GridTableComponent"></component>
 </div>

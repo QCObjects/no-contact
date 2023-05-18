@@ -45,7 +45,7 @@ CONFIG.set("serviceWorkerURI", "/sw.js"); //QCObjects will register an launch th
 CONFIG.set("serviceWorkerScope", "/qcobjects-qr-scanner/");
 // if Component.cached is true, all the Class('Component') declarations will save the template in a localStorage cache
 // until a cached=false attribute is found in a <component> html declaration
-logger.debugEnabled = true;
+logger.debugEnabled = false;
 Component.cached = true;
 
 /**
